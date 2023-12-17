@@ -1,0 +1,65 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+.navbar {
+  width: 100%;
+  height: 60px;
+  background-color: #4484ce;
+  display: flex;
+  justify-content: center;
+}
+.navbar > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+}
+.logo_wrapper {
+  height: 60px;
+}
+.logo_wrapper img {
+  height: 60px;
+  width: auto;
+}
+.navbar_text {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  text-decoration: none;
+}
+.navbar_text a {
+  text-decoration: none;
+  color: #d9d9d9;
+  font-weight: bold;
+  margin-left: 20px;
+}
+h1 {
+  margin: 5vh 0;
+  text-align: center;
+}
+.main_container {
+  padding: 0 5%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+  margin-bottom: 5vh;
+}
+.house_group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.image_container {
+  background-color: gray;
+  width: 70%;
+  height: 400px;
+}
+h3 {
+  padding-top: 2vh;
+}
