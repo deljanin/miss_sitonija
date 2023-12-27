@@ -7,6 +7,57 @@
     <script src="../jquery.js"></script>
     <link rel="stylesheet" href="../index.css" />
     <link rel="icon" type="image/png" href="/images/logo.png" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      // Sample data, replace with your actual image URLs
+
+      const rootPath = "/images/Blue Maris/";
+
+      const roomImages = {
+        1: ['1.jpg', '2.jpg', 'room1-img3.jpg'],
+        2: []
+        // Add more rooms and images as needed
+      };
+  
+
+      $(document).ready(function() {
+      // Display default room images
+      showRoomImages(1);
+
+      // Handle room button clicks
+      $('.room_button').on('click', function() {
+        const roomId = $(this).data('room');
+        showRoomImages(roomId);
+      });
+
+      // Handle mini-image clicks
+      $(document).on('click', '.mini_image', function() {
+        const imageUrl = $(this).attr('src');
+        $('#large_image').attr('src', imageUrl);
+      });
+    });
+
+    function showRoomImages(roomId) {
+      const images = roomImages[roomId];
+      const miniGallery = $('#mini_gallery');
+      miniGallery.empty();
+
+      // Display mini images
+      images.forEach((imageFilename, index) => {
+        const imageUrl = rootPath + roomId + '/' + imageFilename;
+        const miniImage = $('<img>', {
+          class: 'mini_image',
+          src: imageUrl,
+          alt: `Room ${roomId} Image ${index + 1}`
+        });
+        miniGallery.append(miniImage);
+      });
+
+      // Display the first image in the large display
+      const defaultImage = images.length > 0 ? images[0] : 'default_image.jpg';
+      $('#large_image').attr('src', rootPath + roomId + '/' + defaultImage);
+    }
+  </script>
   </head>
   <body>
     <nav class="navbar">
@@ -28,6 +79,23 @@
     </nav>
 
     <!-- OVDE IDU SLIKE -->
+
+    <img id="bg_image" src="/images/bg.jpg" alt="" />
+    <h1>Blue Maris</h1>
+    <div id="gallery_container">
+      <h2>Izaberite sobu:</h3>
+      <div id="room_numbers">
+        <button class="room_button" data_room="1">1</button>
+        <button class="room_button" data_room="2">2</button>
+        <!-- Add more buttons for additional rooms as needed -->
+      </div>
+
+      <div id="room_images">
+        <img id="large_image" src="" alt="Default Image" />
+      </div>
+
+      <div id="mini_gallery"></div>
+    </div>
 
     <h3>Osnovne informacije</h3>
     <span>Ove stavke su uključene u cenu:</span>
