@@ -11,53 +11,99 @@
     <script>
       // Sample data, replace with your actual image URLs
 
-      const rootPath = "/images/Blue Maris/";
+      const rootPath = '/images/Blue Maris/';
 
       const roomImages = {
-        1: ['1.jpg', '2.jpg', 'room1-img3.jpg'],
-        2: []
-        // Add more rooms and images as needed
+        1: ['../Blue-Maris.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
+        2: [
+          '../Blue-Maris.jpg',
+          '1.jpg',
+          '2.jpg',
+          '3.jpg',
+          '4.jpg',
+          '5.jpg',
+          '6.jpg',
+        ],
+        3: ['../Blue-Maris.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg'],
+        4: [
+          '../Blue-Maris.jpg',
+          '1.jpg',
+          '2.jpg',
+          '3.jpg',
+          '4.jpg',
+          '5.jpg',
+          '6.jpg',
+        ],
+        5: ['../Blue-Maris.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
       };
-  
 
-      $(document).ready(function() {
-      // Display default room images
-      showRoomImages(1);
+      var prev_selected_room = 1;
+      var prev_selected_img = 0;
 
-      // Handle room button clicks
-      $('.room_button').on('click', function() {
-        const roomId = $(this).data('room');
-        showRoomImages(roomId);
-      });
+      $(document).ready(function () {
+        // Display default room images
+        showRoomImages(1);
 
-      // Handle mini-image clicks
-      $(document).on('click', '.mini_image', function() {
-        const imageUrl = $(this).attr('src');
-        $('#large_image').attr('src', imageUrl);
-      });
-    });
-
-    function showRoomImages(roomId) {
-      const images = roomImages[roomId];
-      const miniGallery = $('#mini_gallery');
-      miniGallery.empty();
-
-      // Display mini images
-      images.forEach((imageFilename, index) => {
-        const imageUrl = rootPath + roomId + '/' + imageFilename;
-        const miniImage = $('<img>', {
-          class: 'mini_image',
-          src: imageUrl,
-          alt: `Room ${roomId} Image ${index + 1}`
+        // Handle room button clicks
+        $('.room_button').on('click', function () {
+          const roomId = $(this).data('room');
+          if (roomId !== prev_selected_room) {
+            $(
+              '.room_button[data-room="' + prev_selected_room + '"]'
+            ).removeClass('selected');
+            $(this).addClass('selected');
+            prev_selected_room = roomId;
+          }
+          showRoomImages(roomId);
         });
-        miniGallery.append(miniImage);
+
+        // Handle mini-image clicks
+        $(document).on('click', '.mini_image', function () {
+          const imageUrl = $(this).attr('src');
+          const imgId = $(this).data('pictureid');
+          if (imgId !== prev_selected_img) {
+            $('.mini_image[data-pictureid="' + imgId + '"]').addClass(
+              'selected'
+            );
+            $(
+              '.mini_image[data-pictureid="' + prev_selected_img + '"]'
+            ).removeClass('selected');
+            prev_selected_img = imgId;
+          }
+          $('#large_image').fadeOut('fast', function () {
+            $(this).attr('src', imageUrl).fadeIn('fast');
+          });
+        });
       });
 
-      // Display the first image in the large display
-      const defaultImage = images.length > 0 ? images[0] : 'default_image.jpg';
-      $('#large_image').attr('src', rootPath + roomId + '/' + defaultImage);
-    }
-  </script>
+      function showRoomImages(roomId) {
+        const images = roomImages[roomId];
+        const miniGallery = $('#mini_gallery');
+        miniGallery.empty();
+
+        // Display mini images
+        images.forEach((imageFilename, index) => {
+          const imageUrl = rootPath + roomId + '/' + imageFilename;
+          const miniImage = $('<img>', {
+            class: 'mini_image',
+            src: imageUrl,
+            alt: `Room ${roomId} Image ${index + 1}`,
+            'data-pictureid': index,
+          });
+          miniGallery.append(miniImage);
+        });
+        // Display the first image in the large display
+        const defaultImage = images.length > 0 ? images[0] : '';
+        $('#large_image').fadeOut('fast', function () {
+          $(this)
+            .attr('src', rootPath + roomId + '/' + defaultImage)
+            .fadeIn('fast');
+        });
+
+        $('.mini_image[data-pictureid="0"]').addClass('selected');
+        prev_selected_img = 0;
+      }
+    </script>
   </head>
   <body>
     <nav class="navbar">
@@ -78,38 +124,37 @@
       </div>
     </nav>
 
-    <!-- OVDE IDU SLIKE -->
-
     <img id="bg_image" src="/images/bg.jpg" alt="" />
-    <h1>Blue Maris</h1>
-    <div id="gallery_container">
-      <h2>Izaberite sobu:</h3>
+    <div class="wrapper">
+      <h1>Blue Maris</h1>
+      <h2>Izaberite sobu:</h2>
       <div id="room_numbers">
-        <button class="room_button" data_room="1">1</button>
-        <button class="room_button" data_room="2">2</button>
-        <!-- Add more buttons for additional rooms as needed -->
+        <button class="room_button selected" data-room="1">1</button>
+        <button class="room_button" data-room="2">2</button>
+        <button class="room_button" data-room="3">3</button>
+        <button class="room_button" data-room="4">4</button>
+        <button class="room_button" data-room="5">5</button>
       </div>
 
-      <div id="room_images">
+      <div id="room_image">
         <img id="large_image" src="" alt="Default Image" />
       </div>
 
       <div id="mini_gallery"></div>
-    </div>
 
-    <h3>Osnovne informacije</h3>
-    <span>Ove stavke su uključene u cenu:</span>
-    <br />
-    <ul>
-      <li>
-        Lokacija: Ova kuća se nalazi iznad restorana preko puta gradske plaže.
-      </li>
-      <li>Parking</li>
-      <li>Wifi</li>
-      <li>Klima</li>
-      <li>Promena peškira i posteljine</li>
-      <li>Sve sobe imaju pogled na more</li>
-      <li>Napomena: Sobe su bez kuhinje</li>
-    </ul>
+      <h2>Osnovne informacije</h2>
+      <span class="info">Ove stavke su uključene u cenu:</span>
+      <ul class="info">
+        <li>
+          Lokacija: Kuća se nalazi iznad restorana preko puta gradske plaže.
+        </li>
+        <li>Parking</li>
+        <li>Wifi</li>
+        <li>Klima</li>
+        <li>Promena peškira i posteljine</li>
+        <li>Sve sobe imaju pogled na more</li>
+        <li>Napomena: Sobe su bez kuhinje</li>
+      </ul>
+    </div>
   </body>
 </html>

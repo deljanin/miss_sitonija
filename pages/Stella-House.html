@@ -7,6 +7,82 @@
     <script src="../jquery.js"></script>
     <link rel="stylesheet" href="../index.css" />
     <link rel="icon" type="image/png" href="/images/logo.png" />
+        <script>
+      // Sample data, replace with your actual image URLs
+
+      const rootPath = '/images/Stella house/';
+
+      const roomImages = {
+        "1 i 2": ['../Stella-House.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
+      };
+
+      var prev_selected_room = 1;
+      var prev_selected_img = 0;
+
+      $(document).ready(function () {
+        // Display default room images
+        showRoomImages("1 i 2");
+
+        // Handle room button clicks
+        $('.room_button').on('click', function () {
+          const roomId = $(this).data('room');
+          if (roomId !== prev_selected_room) {
+            $(
+              '.room_button[data-room="' + prev_selected_room + '"]'
+            ).removeClass('selected');
+            $(this).addClass('selected');
+            prev_selected_room = roomId;
+          }
+          showRoomImages(roomId);
+        });
+
+        // Handle mini-image clicks
+        $(document).on('click', '.mini_image', function () {
+          const imageUrl = $(this).attr('src');
+          const imgId = $(this).data('pictureid');
+          if (imgId !== prev_selected_img) {
+            $('.mini_image[data-pictureid="' + imgId + '"]').addClass(
+              'selected'
+            );
+            $(
+              '.mini_image[data-pictureid="' + prev_selected_img + '"]'
+            ).removeClass('selected');
+            prev_selected_img = imgId;
+          }
+          $('#large_image').fadeOut('fast', function () {
+            $(this).attr('src', imageUrl).fadeIn('fast');
+          });
+        });
+      });
+
+      function showRoomImages(roomId) {
+        const images = roomImages[roomId];
+        const miniGallery = $('#mini_gallery');
+        miniGallery.empty();
+
+        // Display mini images
+        images.forEach((imageFilename, index) => {
+          const imageUrl = rootPath + roomId + '/' + imageFilename;
+          const miniImage = $('<img>', {
+            class: 'mini_image',
+            src: imageUrl,
+            alt: `Room ${roomId} Image ${index + 1}`,
+            'data-pictureid': index,
+          });
+          miniGallery.append(miniImage);
+        });
+        // Display the first image in the large display
+        const defaultImage = images.length > 0 ? images[0] : '';
+        $('#large_image').fadeOut('fast', function () {
+          $(this)
+            .attr('src', rootPath + roomId + '/' + defaultImage)
+            .fadeIn('fast');
+        });
+
+        $('.mini_image[data-pictureid="0"]').addClass('selected');
+        prev_selected_img = 0;
+      }
+    </script>
   </head>
   <body>
     <nav class="navbar">
@@ -27,12 +103,23 @@
       </div>
     </nav>
 
-    <!-- OVDE IDU SLIKE -->
 
-    <h3>Osnovne informacije</h3>
-    <span>Ove stavke su uključene u cenu:</span>
-    <br />
-    <ul>
+    <img id="bg_image" src="/images/bg.jpg" alt="" />
+    <div class="wrapper">
+      <h1>Stella House</h1>
+      <h2>Izaberite sobu:</h2>
+      <div id="room_numbers">
+        <button class="room_button selected" data-room="1" style="width: 60px;">1 i 2</button>
+      </div>
+
+      <div id="room_image">
+        <img id="large_image" src="" alt="Default Image" />
+      </div>
+
+      <div id="mini_gallery"></div>
+    <h2>Osnovne informacije</h2>
+    <span class="info">Ove stavke su uključene u cenu:</span>
+    <ul class="info">
       <li>Lokacija: Paradizo plaža</li>
       <li>Parking (Nema mogućnost rezervacije)</li>
       <li>Wifi</li>
