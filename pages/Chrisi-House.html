@@ -83,13 +83,22 @@
         $('.mini_image[data-pictureid="0"]').addClass('selected');
         prev_selected_img = 0;
       }
+      $(document).ready(function () {
+        var toggleMenu = false;
+
+        $('.navbar_btn').on('click', function () {
+          toggleMenu = !toggleMenu;
+          console.log(toggleMenu);
+          $('.navbar_text').toggleClass('active', toggleMenu);
+        });
+      });
     </script>
   </head>
   <body>
     <nav class="navbar">
       <div>
         <div class="logo_wrapper">
-          <a href="../index.html">
+          <a href="/index.html">
             <img src="/images/logo.png" />
           </a>
         </div>
@@ -101,6 +110,9 @@
           <a href="/pages/Maria-House.html"><li>Maria House</li></a>
           <a href="/pages/Nikos-House.html"><li>Nikos House</li></a>
         </ul>
+        <button class="navbar_btn">
+          <img src="/images/navbar_menu.svg" alt="" />
+        </button>
       </div>
     </nav>
 
