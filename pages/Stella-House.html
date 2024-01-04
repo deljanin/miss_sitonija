@@ -13,7 +13,9 @@
       const rootPath = '/images/Stella house/';
 
       const roomImages = {
-        "1 i 2": ['../Stella-House.jpg', '1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
+        1: ['../Stella-House.jpg', '1.jpg', '2.jpg','../dnevni.jpg','../kuhinja.jpg','../kupatilo.jpg','../lavabo.jpg','../terasa.jpg','../dvoriste.jpg'],
+        2: ['../Stella-House.jpg', '1.jpg', '../dnevni.jpg','../kuhinja.jpg','../kupatilo.jpg','../lavabo.jpg','../terasa.jpg','../dvoriste.jpg'],
+        3: ['../Stella-House.jpg', '1.jpg', '2.jpg','../dnevni.jpg','../kuhinja.jpg','../kupatilo.jpg','../lavabo.jpg','../terasa.jpg','../dvoriste.jpg'],
       };
 
       var prev_selected_room = 1;
@@ -21,7 +23,7 @@
 
       $(document).ready(function () {
         // Display default room images
-        showRoomImages("1 i 2");
+        showRoomImages(1);
 
         // Handle room button clicks
         $('.room_button').on('click', function () {
@@ -119,9 +121,11 @@
     <img id="bg_image" src="/images/bg.jpg" alt="" />
     <div class="wrapper">
       <h1>Stella House</h1>
-      <h2>Izaberite sobu:</h2>
+      <h2>Tipovi soba:</h2>
       <div id="room_numbers">
-        <button class="room_button selected" data-room="1" style="width: 60px;">1 i 2</button>
+        <button class="room_button selected" data-room="1">1</button>
+        <button class="room_button " data-room="2">2</button>
+        <button class="room_button " data-room="3">3</button>
       </div>
 
       <div id="room_image">
@@ -138,6 +142,7 @@
       <li>Klima</li>
       <li>Promena peškira i posteljine</li>
       <li>Napomena: Sobe su sa kuhinjom</li>
+      <li>Postoji mogućnost dodatnog kreveta i dečijeg kreveca</li>
     </ul>
   </body>
 </html>
